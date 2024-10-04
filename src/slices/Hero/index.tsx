@@ -24,7 +24,7 @@ const Hero = ({ slice }: HeroProps): JSX.Element => {
           <div className="grid auto-rows-min place-items-center text-center">
             {/* Placeholder component for hero (variation: {slice.variation}) Slices */}
             <h1 className="hero-header text-7xl font-black uppercase leading-[0.8] text-orange-500 md:text-[9rem] lg:text-[13rem]">
-              <TextSplitter text={asText(slice.primary.heading)} />
+              <TextSplitter className="hero-header-word" wordDisplayStyle="block" text={asText(slice.primary.heading)} />
             </h1>
             <div className="hero-subheading mt-12 text-5xl font-semibold text-sky-950 lg:text-6xl">
               <PrismicRichText field={slice.primary.subheading} />
