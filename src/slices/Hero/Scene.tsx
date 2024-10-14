@@ -7,12 +7,16 @@ import { Group } from "three"
 import gsap from "gsap"
 import { useGSAP } from "@gsap/react"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
+import { useStore } from "@/hooks/useStore"
+
+
 gsap.registerPlugin(useGSAP, ScrollTrigger)
 
 
 type Props = {}
 
 const Scene = (props: Props) => {
+    const isReady = useStore((state)=>state.isReady)
     const can1Ref = useRef<Group>(null)
     const can2Ref = useRef<Group>(null)
     const can3Ref = useRef<Group>(null)
@@ -36,7 +40,7 @@ const Scene = (props: Props) => {
             !can2GroupRef.current ||
             !groupRef.current
         ) return
-
+        isReady()
         gsap.set(can1Ref.current.position, {x:-1.5})
         gsap.set(can1Ref.current.rotation, {z:-0.5})
 
@@ -53,11 +57,14 @@ const Scene = (props: Props) => {
                 ease:"back.out(1.4)"
             }
         })
-        introTl
-        .from(can1GroupRef.current.position, {y:-5, x:-3},0)
-        .from(can1GroupRef.current.rotation, {z:3},0)
-        .from(can2GroupRef.current.position, {y:5, x:3},0)
-        .from(can2GroupRef.current.rotation, {z:3},0)
+        if(window.scrollY < 20){
+
+            introTl
+            .from(can1GroupRef.current.position, {y:-5, x:-3},0)
+            .from(can1GroupRef.current.rotation, {z:3},0)
+            .from(can2GroupRef.current.position, {y:5, x:3},0)
+            .from(can2GroupRef.current.rotation, {z:3},0)
+        }
 
         const scrollTl = gsap.timeline({
             defaults:{
@@ -89,6 +96,8 @@ const Scene = (props: Props) => {
         // can 5 --> watermelon2 
         .to(can5Ref.current.position, {x:1.8, y:-0.6, z:-2.5}, 0)
         .to(can5Ref.current.rotation, {z:-0.2}, 0)
+        // group
+        .to(groupRef.current.position, {x:0.8, duration:1, ease:"sine.inOut"},1.3)
 
     })
     
